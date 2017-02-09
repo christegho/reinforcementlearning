@@ -10,9 +10,9 @@ pi = ones(nstates,1);
 it2 = 0;
 piStable = false;
 
-while( it2 < 100)
+while(~(piStable)&& it2 < maxit)
 sprintf('one more it')
-pi = ones(nstates,1);
+
     %policy evaluation  
     for state= 1:nstates
         sprintf('here---')
