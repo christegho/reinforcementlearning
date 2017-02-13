@@ -3,12 +3,14 @@ v = zeros(model.stateCount, 1);
 pi = ones(model.stateCount, 1);
 % initialize the value function
 Q = zeros(model.stateCount, 4);
+alpha = 0.5;
 for i = 1:maxeps,
     % every time we reset the episode, start at the given startState
     s = model.startState;
-    a=1;
+
     for j = 1:maxit,
         % PICK AN ACTION
+        a = 1;
         p = 0;
         r = rand;
 
@@ -24,9 +26,9 @@ for i = 1:maxeps,
 
         % s_ should now be the next sampled state.
         % IMPLEMENT THE UPDATE RULE FOR Q HERE.
-        alpha = 0.3;
+        alpha = 0.2;
         
-        eps = 0.2; 
+        eps = 0.1; 
         if rand < (1-eps)
             [mQ, a_] = max(Q(s_,:));        
         else
@@ -37,11 +39,9 @@ for i = 1:maxeps,
         % SHOULD WE BREAK OUT OF THE LOOP?
         s=s_;
         a=a_;
-        
         if s == model.goalState
             break;
         end 
-        
     end
     oldV = v;
     oldPi = pi;
