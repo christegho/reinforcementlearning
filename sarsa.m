@@ -24,9 +24,9 @@ for i = 1:maxeps,
 
         % s_ should now be the next sampled state.
         % IMPLEMENT THE UPDATE RULE FOR Q HERE.
-        alpha = 0.3;
+        alpha = 0.4;
         
-        eps = 0.2; 
+        eps = 0.1; 
         if rand < (1-eps)
             [mQ, a_] = max(Q(s_,:));        
         else
