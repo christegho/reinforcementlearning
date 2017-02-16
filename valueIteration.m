@@ -1,12 +1,13 @@
-function [v, pi] = valueIteration(model, maxit)
+function [v, pi, normV, it] = valueIteration(model, maxit)
 
-tol = 0.0001;
+tol = 0.001;
 nstates = size(model.P,1);
 v = zeros(1,nstates);
 v_ = zeros(1,nstates);
 pi = zeros(nstates,1);
 maxiter = 0;
 diff = inf;
+normV = zeros(1,1);
 it=0;
 while (diff > tol && it < maxit)
     maxiter = max(it,maxiter);
@@ -20,6 +21,7 @@ while (diff > tol && it < maxit)
     end
     it = it+1;
     diff = norm(v-v_,3);
+    normV = [normV, norm(v_,3)];
     v = v_
 end
 maxiter

@@ -1,4 +1,4 @@
-function [v, pi, cumulativeR,  itEps, epsIt] = qLearning(model, maxit, maxeps)
+function [v, pi, cumulativeR,  itEps, epsIt] = qLearning(model, maxit, maxeps,)
 v = zeros(model.stateCount, 1);
 pi = ones(model.stateCount, 1);
 % initialize the value function
