@@ -37,10 +37,9 @@ for i = 1:maxeps,
         end    
         
         Q(s,a) = Q(s,a) + alpha*(model.R(s,a)+model.gamma*Q(s_,a_) -Q(s,a));
-        % SHOULD WE BREAK OUT OF THE LOOP?
         s=s_;
         a=a_;
-        cumulativeR(i) = cumulativeR(i) + model.R(s,a);
+        cumulativeR(i) = cumulativeR(i) + model.gamma*model.R(s,a);
         epsIt = [epsIt, i];
         if s == model.goalState
             break;
@@ -50,19 +49,11 @@ for i = 1:maxeps,
     itEps = [itEps ,j];
     
     oldV = v;
-    if (i~=1)
-        oldPi2 = oldPi;
-    end
-
     oldPi = pi;
     [A,I] = max(Q');
     pi = I';
     v = A';
-    if (oldPi == pi)
-        if (i~=1)
-            if (oldPi2 == oldPi)
-                %break;
-            end 
+        if (oldPi == pi)
         end
     end
     

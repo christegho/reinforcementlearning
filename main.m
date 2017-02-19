@@ -2,7 +2,7 @@ clear all;
 close all;
 gridworld;
 maxit = 600;
-
+cliffworld
 %Value Iteration
 [v, pi, normV, it] = valueIteration(model, maxit);
 it-1
@@ -64,8 +64,8 @@ maxeps = 500;
 itLengthSarsa = [];
 crossCumRSarsa = zeros(10,500);
 for i = 1:10
-[v, pi, cumulativeR, itEps, epsIt] = sarsa(model, maxit, maxeps)
-itLengthSarsa = [itLengthSarsa, epsIt]
+[v, pi, cumulativeR, itEps, epsIts] = sarsa(model, maxit, maxeps);
+itLengthSarsa = [itLengthSarsa, length(epsIts)];
 crossCumRSarsa(i,:) = cumulativeR';
 end
 plotVP(v,pi,paramSet)
@@ -73,17 +73,30 @@ plotVP(v,pi,paramSet)
 itLengthQL = [];
 crossCumRQL = zeros(10,500);
 for i = 1:10
-[v, pi, cumulativeR, itEps, epsIt] = qLearning(model, maxit, maxeps)
-itLengthQL = [itLengthQL, epsIt]
+[v, pi, cumulativeR, itEps, epsIt] = qLearning(model, maxit, maxeps);
+itLengthQL = [itLengthQL, length(epsIt)];
 crossCumRQL(i,:) = cumulativeR';
 end
 plotVP(v,pi,paramSet)
 
 figure
 hold on
-plot(sum(crossCumRSarsa)/10)
-plot(sum(crossCumRQL)/10)
+plot(smooth(sum(crossCumRSarsa)/10))
+plot(smooth(sum(crossCumRQL)/10))
+xlabel('Episode')
+ylabel('Cumulative Reward')
+legend('SARSA', 'QLearning')
+sum(itLengthSarsa)/10
+sum(itLengthQL)/10
 
+figure 
+for i = 1:5
+hold on
+[v, pi, cumulativeR, itEps, epsIt] = qLearning(model, maxit, maxeps);
+plot(epsIt,'b')
+[v, pi, cumulativeR, itEps, epsIts] = sarsa(model, maxit, maxeps);
+plot(epsIts,'r')
+end
 
-
-
+xlabel('Iterations')
+ylabel('Episodes')

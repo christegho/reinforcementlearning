@@ -39,7 +39,7 @@ paramSet.bias = 0;
 % passing through a bad spot.
 paramSet.rStep = -1;
 paramSet.rGoal = 10;
-paramSet.rBad = -6;
+paramSet.rBad = -100;
 paramSet.gamma = 0.9;
 
 % creates a model based on the parameters.  The fields are given by:

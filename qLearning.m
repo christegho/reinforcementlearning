@@ -6,17 +6,18 @@ Q = zeros(model.stateCount, 4);
 cumulativeR = zeros(maxeps,1);
 itEps = [];
 epsIt = [];
+a = randi(4);  
 for i = 1:maxeps,
     % every time we reset the episode, start at the given startState
     s = model.startState;
     eps = 1/i; 
     if rand < (1-eps)
-    	[mQ, a] = max(Q(s,:));        
+    	%[mQ, a] = max(Q(s,:));        
     else
-    	a = randi(4);       
+    	%a = randi(4);       
     end 
+    
     for j = 1:maxit,
-        % PICK AN ACTION
         p = 0;
         r = rand;
         
@@ -44,7 +45,7 @@ for i = 1:maxeps,
         Q(s,a) = Q(s,a) + alpha*(model.R(s,a)+max(model.gamma*Q(s_,:)) -Q(s,a));
         
         s=s_;
-        cumulativeR(i) = cumulativeR(i) + model.R(s,a);
+        cumulativeR(i) = cumulativeR(i) + model.gamma*model.R(s,a);
         epsIt = [epsIt, i];
         if s == model.goalState
             break
